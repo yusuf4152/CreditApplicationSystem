@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  creditSystemDb:
+    container_name: "creditSystemDb"
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: creditSystem
+      MYSQL_ROOT_PASSWORD: root
