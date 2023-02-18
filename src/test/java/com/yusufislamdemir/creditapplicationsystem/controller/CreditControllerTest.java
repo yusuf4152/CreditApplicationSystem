@@ -25,6 +25,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -57,7 +58,7 @@ class CreditControllerTest {
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(8000)
                 .creditScore(600)
-                .dateOfBirth(LocalDate.of(2022,2,2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
 
         GetCreditDto getCreditDto = GetCreditDto.builder()
@@ -78,5 +79,38 @@ class CreditControllerTest {
         String result = mvcResult.getResponse().getContentAsString();
         verify(creditService).createCredit(eq(createCreditDto));
         then(result).isEqualTo(objectMapper.writeValueAsString(getCreditDto));
+    }
+
+    @Test
+    void getCredit() throws Exception {
+        long userId = 2;
+        GetUserDto getUserDto = GetUserDto.builder()
+                .id(userId)
+                .name("yusuf")
+                .surname("demir")
+                .phoneNumber("1111111111")
+                .tcIdentityNumber("11111111111")
+                .monthlyIncome(10000)
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
+                .build();
+        GetCreditDto getCreditDto = GetCreditDto.builder()
+                .user(getUserDto)
+                .guarantee(1000)
+                .message(CreditMessage.CONFIRMATION)
+                .limit(20000)
+                .id(1L)
+                .build();
+        when(creditService.getCredit(getUserDto.getTcIdentityNumber(), getUserDto.getDateOfBirth())).thenReturn(getCreditDto);
+
+        MvcResult mvcResult = mockMvc.perform
+                        (get("/api/v1/credit/getCredit?userTc=" + getUserDto.getTcIdentityNumber() + "&" + "dateOfBirth=" + getUserDto.getDateOfBirth())
+                                .contentType(MediaType.APPLICATION_JSON)
+                        ).andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        verify(creditService).getCredit(getUserDto.getTcIdentityNumber(), getUserDto.getDateOfBirth());
+        then(result).isEqualTo(objectMapper.writeValueAsString(getCreditDto));
+
     }
 }
