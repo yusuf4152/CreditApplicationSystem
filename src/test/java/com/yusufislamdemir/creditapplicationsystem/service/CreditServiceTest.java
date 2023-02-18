@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.BDDAssertions.then;
@@ -55,7 +56,7 @@ class CreditServiceTest {
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(8000)
                 .creditScore(600)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
 
         User user = User.builder()
@@ -67,7 +68,7 @@ class CreditServiceTest {
                 .monthlyIncome(8000)
                 .password("123456789")
                 .creditScore(600)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
 
         GetCreditDto getCreditDto = GetCreditDto.builder()
@@ -105,7 +106,7 @@ class CreditServiceTest {
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(8000)
                 .creditScore(600)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
 
         User user = User.builder()
@@ -117,7 +118,7 @@ class CreditServiceTest {
                 .monthlyIncome(8000)
                 .password("123456789")
                 .creditScore(600)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
 
         GetCreditDto getCreditDto = GetCreditDto.builder()
@@ -153,7 +154,7 @@ class CreditServiceTest {
                 .monthlyIncome(8000)
                 .password("123456789")
                 .creditScore(600)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
         //when
         when(creditRepository.findByUserIdentificationNumberAndBirthDate(user.getTcIdentityNumber(), user.getDateOfBirth())).thenReturn(Optional.empty());

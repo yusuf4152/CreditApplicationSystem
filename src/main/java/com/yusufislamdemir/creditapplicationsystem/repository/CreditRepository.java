@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +14,8 @@ import java.util.Optional;
 
 public interface CreditRepository extends JpaRepository<Credit, String> {
 
-    @Query("SELECT c FROM Credit c INNER JOIN c.user u WHERE u.tcIdentityNumber = :identificationNumber AND DATE(u.dateOfBirth) = :birthDate")
-   Optional <Credit> findByUserIdentificationNumberAndBirthDate(@Param("identificationNumber") String identificationNumber,
-                                                              @Param("birthDate") Date birthDate);
+    @Query("SELECT c FROM Credit c INNER JOIN c.user u WHERE u.tcIdentityNumber = :identificationNumber AND u.dateOfBirth = :birthDate")
+    Optional<Credit> findByUserIdentificationNumberAndBirthDate(@Param("identificationNumber") String identificationNumber,
+                                                                @Param("birthDate") LocalDate birthDate);
 
 }

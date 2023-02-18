@@ -17,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,7 +54,7 @@ class UserControllerTest {
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(10000)
                 .password("123456789")
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
         GetUserDto getUserDto = GetUserDto.builder()
                 .name("yusuf")
@@ -61,7 +62,7 @@ class UserControllerTest {
                 .phoneNumber("1111111111")
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(10000)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
         //when
         when(userService.createUser(createUserDto)).thenReturn(getUserDto);
@@ -86,7 +87,7 @@ class UserControllerTest {
                 .phoneNumber("1111111111")
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(10000)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
         when(userService.getUserById(userId)).thenReturn(getUserDto);
 
@@ -113,7 +114,7 @@ class UserControllerTest {
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(10000)
                 .role(Role.ROLE_ADMIN)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
         when(userService.giveAdminRoleToUser(userId)).thenReturn(getUserDto);
 
@@ -130,7 +131,7 @@ class UserControllerTest {
     @Test
     @WithMockUser(username = "11111111111", authorities = "ROLE_ADMIN")
     void getAllUsers() throws Exception {
-        List<GetUserDto>getUserDtos= new ArrayList<>();
+        List<GetUserDto> getUserDtos = new ArrayList<>();
         GetUserDto getUserDto = GetUserDto.builder()
                 .name("yusuf")
                 .surname("demir")
@@ -138,7 +139,7 @@ class UserControllerTest {
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(10000)
                 .role(Role.ROLE_ADMIN)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
         getUserDtos.add(getUserDto);
         when(userService.getAllUsers()).thenReturn(getUserDtos);
@@ -163,7 +164,7 @@ class UserControllerTest {
                 .phoneNumber("1111111111")
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(10000)
-                .dateOfBirth(new Date(2022, Calendar.NOVEMBER, 2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
         when(userService.deleteUserById(userId)).thenReturn(getUserDto);
 
@@ -179,23 +180,23 @@ class UserControllerTest {
 
     @Test
     void updateUser() throws Exception {
-        UpdateUserDto updateUserDto= UpdateUserDto.builder()
+        UpdateUserDto updateUserDto = UpdateUserDto.builder()
                 .UserId(2)
                 .name("yusuf")
                 .surname("demir")
                 .phoneNumber("1111111111")
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(10000)
-                .dateOfBirth(new Date(2023, Calendar.NOVEMBER,2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
-        GetUserDto getUserDto= GetUserDto.builder()
+        GetUserDto getUserDto = GetUserDto.builder()
                 .id(2)
                 .name("yusuf")
                 .surname("demir")
                 .phoneNumber("1111111111")
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(10000)
-                .dateOfBirth(new Date(2023, Calendar.NOVEMBER,2))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
 
         when(userService.UpdateUser(updateUserDto)).thenReturn(getUserDto);

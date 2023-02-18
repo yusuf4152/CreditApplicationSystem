@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.Date;
 
 @RestController
@@ -26,7 +27,7 @@ public class CreditController {
     }
 
     @GetMapping("/getCredit")
-    public ResponseEntity<GetCreditDto> getCredit(@RequestParam String userTc, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateOfBirth) {
+    public ResponseEntity<GetCreditDto> getCredit(@RequestParam String userTc, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateOfBirth) {
         return ResponseEntity.status(HttpStatus.OK).body(creditService.getCredit(userTc, dateOfBirth));
     }
 }

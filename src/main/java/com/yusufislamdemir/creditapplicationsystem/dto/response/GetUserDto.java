@@ -3,6 +3,7 @@ package com.yusufislamdemir.creditapplicationsystem.dto.response;
 import com.yusufislamdemir.creditapplicationsystem.entity.Role;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ public class GetUserDto {
     private String surname;
     private int monthlyIncome;
     private String phoneNumber;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private int creditScore;
     private Role role;
     private boolean isDeleted;

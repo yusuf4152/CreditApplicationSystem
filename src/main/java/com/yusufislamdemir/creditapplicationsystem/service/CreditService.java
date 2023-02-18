@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Service
@@ -35,19 +36,26 @@ public class CreditService {
         int creditScore = user.getCreditScore();
         Long guarantee = createCreditDto.getGuarantee() != null ? createCreditDto.getGuarantee() : 0;
         if (creditScore < 500) {
+            log.warn("credit not created beacuse credit score less than");
             return getCreditDtoConverter
                     .convert(generateCredit(0, guarantee, user, CreditMessage.REFUSE));
         }
         if (creditScore >= 500 && creditScore <= 1000 && user.getMonthlyIncome() < 5000) {
+
+            log.info("credit created");
             return getCreditDtoConverter
                     .convert(creditRepository.save(generateCredit(10000, guarantee, user, CreditMessage.CONFIRMATION)));
         }
         if (creditScore >= 500 && creditScore <= 1000 && user.getMonthlyIncome() >= 5000 && user.getMonthlyIncome() < 10000) {
+
+            log.info("credit created");
             long limit = 20000 + ((guarantee * 20) / 100);
             return getCreditDtoConverter
                     .convert(creditRepository.save(generateCredit(limit, guarantee, user, CreditMessage.CONFIRMATION)));
         }
         if (creditScore >= 500 && creditScore <= 1000 && user.getMonthlyIncome() >= 10000) {
+
+            log.info("credit created");
             long limit = (long) user.getMonthlyIncome() * creditLimitMultiplier + ((guarantee * 25) / 100);
             return getCreditDtoConverter
                     .convert(creditRepository.save(generateCredit(limit, guarantee, user, CreditMessage.CONFIRMATION)));
@@ -66,9 +74,11 @@ public class CreditService {
                 .build();
     }
 
-    public GetCreditDto getCredit(String userTc, Date dateOfBirth) {
+    public GetCreditDto getCredit(String userTc, LocalDate dateOfBirth) {
         Credit credit = creditRepository.findByUserIdentificationNumberAndBirthDate(userTc, dateOfBirth)
-                .orElseThrow(() -> new EntityNotFoundException("Credit not found"));
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Credit not found"));
+        log.info("credit get");
         return getCreditDtoConverter.convert(credit);
     }
 }

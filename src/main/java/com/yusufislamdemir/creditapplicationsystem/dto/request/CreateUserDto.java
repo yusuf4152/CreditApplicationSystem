@@ -4,6 +4,7 @@ package com.yusufislamdemir.creditapplicationsystem.dto.request;
 import lombok.*;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -34,7 +35,7 @@ public class CreateUserDto {
     @Digits(message = "phone number must have 10 digits and must type integer", integer = 10, fraction = 0)
     private String phoneNumber;
     @NotNull(message = "date of birth must be not null")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     @NotNull(message = "password must be not null")
     @NotBlank(message = "password must be not blank")
     @Min(value = 6, message = "password must be greater than six")
