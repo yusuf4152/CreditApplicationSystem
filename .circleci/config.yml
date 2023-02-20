@@ -15,10 +15,10 @@ jobs:
       - run:
             name: docker-build
             command: | 
-             docker build -t $docker_username/CreditApplicationSystem .
+             docker build -t $docker_username/creditapplicationsystem .
       - run:
           name: Archive Docker image
-          command: docker save -o image.tar $docker_username/creditApplicationSystem
+          command: docker save -o image.tar $docker_username/creditapplicationsystem
       - persist_to_workspace:
           root: .
           paths:
@@ -38,7 +38,7 @@ jobs:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$docker_password" | docker login -u "$docker_username" --password-stdin
-            docker push $docker_username/creditApplicationSystem             
+            docker push $docker_username/creditapplicationsystem             
 
   test-project:
     machine:
