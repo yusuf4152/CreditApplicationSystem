@@ -1,4 +1,7 @@
 version: 2.1
+orbs:
+  aws-ecs: circleci/aws-ecs@3.2.0
+  aws-cli: circleci/aws-cli@3.1.1
 jobs:
   build-test-project:
     machine:
@@ -39,6 +42,28 @@ jobs:
           command: |
             echo "$docker_password" | docker login -u "$docker_username" --password-stdin
             docker push $docker_username/creditapplicationsystem             
+ 
+  verify-deployment:
+    executor: aws-cli/default
+    steps:
+      - aws-cli/install
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID 
+          aws-region: AWS_REGION
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - run:
+          name: Get last task definition
+          command: >
+            TASK_DEFINITION_ARN=$(aws ecs describe-task-definition \
+                --task-definition project-service \
+                --output text \
+                --query 'taskDefinition.taskDefinitionArn')
+            echo "export TASK_DEFINITION_ARN='${TASK_DEFINITION_ARN}'" >>
+            "$BASH_ENV"
+      - aws-ecs/verify-revision-is-deployed:
+          family: 'project-service'
+          cluster: 'project-cluster'
+          task-definition-arn: '${TASK_DEFINITION_ARN}'
 
   test-project:
     machine:
@@ -67,7 +92,16 @@ workflows:
          branches:
            only:
             - master
-
+    - aws-ecs/deploy-service-update: 
+          requires:
+            - push-dockerhub-project
+          family: 'project-service'
+          cluster: 'project-cluster'
+          container-image-name-updates: 'docker.io/$docker_username/creditapplicationsystem'
+    - verify-deployment:
+          requires:
+            - aws-ecs/deploy-service-update 
+  
   checkout-test:
     jobs:
     - test-project:
