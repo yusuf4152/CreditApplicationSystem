@@ -101,7 +101,11 @@ workflows:
     - verify-deployment:
           context: deneme
           requires:
-            - aws-ecs/deploy-service-update 
+            - aws-ecs/deploy-service-update
+          filters:
+           branches:
+            only:
+            - master   
   
   checkout-test:
     jobs:
