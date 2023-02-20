@@ -43,11 +43,11 @@ public class CreditService {
         if (creditScore >= 500 && creditScore <= 1000 && user.getMonthlyIncome() < 5000) {
 
             log.info("credit created");
+            long limit = 20000 + ((guarantee * 10) / 100);
             return getCreditDtoConverter
-                    .convert(creditRepository.save(generateCredit(10000, guarantee, user, CreditMessage.CONFIRMATION)));
+                    .convert(creditRepository.save(generateCredit(limit, guarantee, user, CreditMessage.CONFIRMATION)));
         }
         if (creditScore >= 500 && creditScore <= 1000 && user.getMonthlyIncome() >= 5000 && user.getMonthlyIncome() < 10000) {
-
             log.info("credit created");
             long limit = 20000 + ((guarantee * 20) / 100);
             return getCreditDtoConverter
