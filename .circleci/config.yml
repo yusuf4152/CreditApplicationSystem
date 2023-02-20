@@ -11,7 +11,7 @@ jobs:
           command: mvn clean install -P prod -Dmaven.test.skip=true 
       - run:
             name: run all test
-            command: mvn test -P prod
+            command: mvn test 
       - run:
             name: docker-build
             command: | 
