@@ -93,12 +93,14 @@ workflows:
            only:
             - master
     - aws-ecs/deploy-service-update: 
+          context: deneme
           requires:
             - push-dockerhub-project
           family: 'project-service'
           cluster: 'project-cluster'
           container-image-name-updates: 'docker.io/$docker_username/creditapplicationsystem'
     - verify-deployment:
+          context: deneme
           requires:
             - aws-ecs/deploy-service-update 
   
