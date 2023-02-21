@@ -35,7 +35,7 @@ public class SwaggerConfiguration {
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.yusufislamdemir.creditapplicationsystem"))
                 .paths(PathSelectors.any())
                 .build();
     }
