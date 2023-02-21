@@ -37,6 +37,7 @@ public class CreditService {
         Long guarantee = createCreditDto.getGuarantee() != null ? createCreditDto.getGuarantee() : 0;
         if (creditScore < 500) {
             log.warn("credit not created beacuse credit score less than");
+            sendSms(user.getPhoneNumber(), CreditMessage.REFUSE);
             return getCreditDtoConverter
                     .convert(generateCredit(0, guarantee, user, CreditMessage.REFUSE));
         }
@@ -44,22 +45,26 @@ public class CreditService {
 
             log.info("credit created");
             long limit = 20000 + ((guarantee * 10) / 100);
+            sendSms(user.getPhoneNumber(), CreditMessage.CONFIRMATION);
             return getCreditDtoConverter
                     .convert(creditRepository.save(generateCredit(limit, guarantee, user, CreditMessage.CONFIRMATION)));
         }
         if (creditScore >= 500 && creditScore <= 1000 && user.getMonthlyIncome() >= 5000 && user.getMonthlyIncome() < 10000) {
             log.info("credit created");
             long limit = 20000 + ((guarantee * 20) / 100);
+            sendSms(user.getPhoneNumber(), CreditMessage.CONFIRMATION);
             return getCreditDtoConverter
                     .convert(creditRepository.save(generateCredit(limit, guarantee, user, CreditMessage.CONFIRMATION)));
         }
         if (creditScore >= 500 && creditScore <= 1000 && user.getMonthlyIncome() >= 10000) {
 
             log.info("credit created");
+            sendSms(user.getPhoneNumber(), CreditMessage.CONFIRMATION);
             long limit = (long) user.getMonthlyIncome() * creditLimitMultiplier + ((guarantee * 25) / 100);
             return getCreditDtoConverter
                     .convert(creditRepository.save(generateCredit(limit, guarantee, user, CreditMessage.CONFIRMATION)));
         }
+        sendSms(user.getPhoneNumber(), CreditMessage.CONFIRMATION);
         long limit = (long) user.getMonthlyIncome() * creditLimitMultiplier + ((guarantee * 50) / 100);
         return getCreditDtoConverter
                 .convert(creditRepository.save(generateCredit(limit, guarantee, user, CreditMessage.CONFIRMATION)));
@@ -72,6 +77,10 @@ public class CreditService {
                 .resultMessage(message)
                 .user(user)
                 .build();
+    }
+
+    private void sendSms(String phoneNumber, String message) {
+        log.info(phoneNumber + " " + message);
     }
 
     public GetCreditDto getCredit(String userTc, LocalDate dateOfBirth) {

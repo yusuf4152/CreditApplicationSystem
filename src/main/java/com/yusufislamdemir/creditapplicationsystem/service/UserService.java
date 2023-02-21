@@ -8,10 +8,13 @@ import com.yusufislamdemir.creditapplicationsystem.entity.Role;
 import com.yusufislamdemir.creditapplicationsystem.entity.User;
 import com.yusufislamdemir.creditapplicationsystem.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -58,8 +61,12 @@ public class UserService {
                 .tcIdentityNumber(createUserDto.getTcIdentityNumber())
                 .creditScore(random.nextInt(1001))
                 .build();
-        log.info("user created");
+        User checkUser = getUserByTcIdentityNumber(user.getTcIdentityNumber());
+        if (checkUser != null) {
+            throw new IllegalArgumentException("user identity number must not be duplicate");
+        }
         return getUserDtoConverter.convert(userRepository.save(user));
+
     }
 
     public GetUserDto giveAdminRoleToUser(long userId) {
