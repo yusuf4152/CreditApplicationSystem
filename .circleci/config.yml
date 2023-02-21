@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  aws-cli: circleci/aws-cli@3.1
 jobs:
   build-test-project:
     machine:
@@ -41,25 +39,6 @@ jobs:
           command: |
             echo "$docker_password" | docker login -u "$docker_username" --password-stdin
             docker push $docker_username/creditapplicationsystem             
-  deploy:
-    executor: aws-cli/default
-    steps:
-      - run:
-          name: Deploy to AWS ECS
-          command: |
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-            aws configure set default.region $AWS_REGION
-            envsubst < ecs_task_definition.json > task-def.json
-            aws ecs register-task-definition --cli-input-json file://task-def.json
-            aws ecs update-service --cluster $ECS_CLUSTER_NAME --service $ECS_SERVICE_NAME --force-new-deployment
-          environment:
-            AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-            AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-            AWS_REGION: $AWS_REGION
-            ECS_CLUSTER_NAME: $ECS_CLUSTER_NAME
-            ECS_SERVICE_NAME: $ECS_SERVICE_NAME
-            DOCKER_IMAGE: $docker_username/creditapplicationsystem  
   test-project:
     machine:
       image: ubuntu-2004:202010-01 
@@ -68,7 +47,7 @@ jobs:
       - checkout
       - run:
             name: run all test
-            command: mvn test -P dev        
+            command: mvn test         
 
 workflows:
   build-test-deploydockerhub:
@@ -87,15 +66,7 @@ workflows:
          branches:
            only:
             - master 
-    - deploy:
-        context: deneme
-        requires:
-          - push-dockerhub-project
-        filters:
-         branches:
-           only:
-            - master 
-             
+            
   checkout-test:
     jobs:
     - test-project:
