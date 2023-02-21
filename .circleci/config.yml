@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@3.1
 jobs:
   build-test-project:
     machine:
@@ -40,8 +42,7 @@ jobs:
             echo "$docker_password" | docker login -u "$docker_username" --password-stdin
             docker push $docker_username/creditapplicationsystem             
   deploy:
-    docker:
-      - image: circleci/aws-cli:2.2
+    executor: aws-cli/default
     steps:
       - run:
           name: Deploy to AWS ECS
