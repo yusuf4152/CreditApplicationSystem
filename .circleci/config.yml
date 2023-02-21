@@ -41,7 +41,7 @@ jobs:
             docker push $docker_username/creditapplicationsystem             
   deploy:
     docker:
-      - image: circleci/aws-cli@3.1.4
+      - image: circleci/aws-cli:2.2
     steps:
       - run:
           name: Deploy to AWS ECS
