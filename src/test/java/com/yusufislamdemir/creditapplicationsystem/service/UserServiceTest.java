@@ -70,7 +70,7 @@ class UserServiceTest {
     }
 
     @Test
-    void createUser() {
+    void createUserWhenTcIdenticationNumberNotDuplicated() {
         //given
         CreateUserDto createUserDto = CreateUserDto.builder()
                 .name("yusuf")
@@ -87,7 +87,7 @@ class UserServiceTest {
                 .phoneNumber("1111111111")
                 .tcIdentityNumber("11111111111")
                 .monthlyIncome(10000)
-                .password("123456789")
+                .password(bCryptPasswordEncoder.encode(createUserDto.getPassword()))
                 .dateOfBirth(LocalDate.of(2022, 2, 2))
                 .build();
         GetUserDto getUserDto = GetUserDto.builder()
@@ -101,11 +101,44 @@ class UserServiceTest {
         //when
         when(userRepository.save(user)).thenReturn(user);
         when(getUserDtoConverter.convert(user)).thenReturn(getUserDto);
+        when(userRepository.findByTcIdentityNumberAndIsDeletedFalse(user.getTcIdentityNumber())).thenReturn(Optional.empty());
         GetUserDto result = userService.createUser(createUserDto);
         //then
         Mockito.verify(userRepository).save(user);
         Mockito.verify(getUserDtoConverter).convert(user);
         then(result).isEqualTo(getUserDto);
+    }
+
+    @Test
+    void createUserWhenTcıdentitcationNumberDuplicated() {
+
+        String message = "tc identification number must not be duplicate";
+        CreateUserDto createUserDto = CreateUserDto.builder()
+                .name("yusuf")
+                .surname("demir")
+                .phoneNumber("1111111111")
+                .tcIdentityNumber("11111111111")
+                .monthlyIncome(10000)
+                .password("123456789")
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
+                .build();
+
+        User user = User.builder()
+                .name("yusuf")
+                .surname("demir")
+                .phoneNumber("1111111111")
+                .tcIdentityNumber("11111111111")
+                .monthlyIncome(10000)
+                .password(bCryptPasswordEncoder.encode(createUserDto.getPassword()))
+                .dateOfBirth(LocalDate.of(2022, 2, 2))
+                .build();
+
+        //when
+        when(userRepository.findByTcIdentityNumberAndIsDeletedFalse(createUserDto.getTcIdentityNumber())).thenReturn(Optional.of(user));
+        IllegalArgumentException result = assertThrows(IllegalArgumentException.class, () -> userService.createUser(createUserDto));
+        //then
+        verify(userRepository).findByTcIdentityNumberAndIsDeletedFalse(createUserDto.getTcIdentityNumber());
+        then(result.getMessage()).isEqualTo(message);
     }
 
     @Test

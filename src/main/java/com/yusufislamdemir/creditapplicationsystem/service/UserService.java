@@ -16,6 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -61,9 +62,9 @@ public class UserService {
                 .tcIdentityNumber(createUserDto.getTcIdentityNumber())
                 .creditScore(random.nextInt(1001))
                 .build();
-        User checkUser = getUserByTcIdentityNumber(user.getTcIdentityNumber());
-        if (checkUser != null) {
-            throw new IllegalArgumentException("user identity number must not be duplicate");
+        Optional<User> checkUser = userRepository.findByTcIdentityNumberAndIsDeletedFalse(user.getTcIdentityNumber());
+        if (checkUser.isPresent()) {
+            throw new IllegalArgumentException("tc identification number must not be duplicate");
         }
         return getUserDtoConverter.convert(userRepository.save(user));
 
