@@ -1,6 +1,5 @@
 # CreditApplicationSystem
-DefineX Java/Spring practium graduation project
-Credit Application System with Spring Boot
+DefineX Java/Spring practium final project
 
 
 # Java Spring Bootcamp Graduation Project
