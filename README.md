@@ -39,7 +39,8 @@ In order to test endpoints with admin role, a user with role admin authority is 
 - AWS ECS
 
 ## build 
-$ git clone https://github.com/yusuf4152/CreditApplicationSystem.git
+ git clone https://github.com/yusuf4152/CreditApplicationSystem.git
+ 
 $ cd CreditApplicationSystem
 $ add run mysqliamge database 
 enviroment variable are
@@ -49,6 +50,7 @@ enviroment variable are
       - "3306:3306"
 $ mvn clean install
 $ mvn spring-boot:run
+
 ## Swagger UI will be run on this url
 `http://localhost:8080/swagger-ui.html`
 ## api endpoints
