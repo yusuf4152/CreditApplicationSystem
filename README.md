@@ -28,7 +28,7 @@ In order to test endpoints with admin role, a user with role admin authority is 
 - Spring security(JWT)
 - Lombok
 - Exception Handling
-- H2 (test)database
+- H2 database (test)
 - Mysql (prod and dev)
 - Spring Profiles
 - JUnit Mockito
@@ -42,7 +42,7 @@ In order to test endpoints with admin role, a user with role admin authority is 
  git clone https://github.com/yusuf4152/CreditApplicationSystem.git
  
 - $ cd CreditApplicationSystem
-- $ add run mysqliamge database 
+- $ add run mysql image database 
 enviroment variable are
       MYSQL_DATABASE: creditSystem
       MYSQL_ROOT_PASSWORD: root
