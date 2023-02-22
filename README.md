@@ -3,7 +3,7 @@ DefineX Java/Spring practium final project
 
 
 # Java Spring Bootcamp Graduation Project
-Credit Application System with Spring Boot and ReactJS
+Credit Application System with Spring Boot
 
 - #### Backend live on [http://3.127.150.26:8080/swagger-ui/index.html#/](http://3.127.150.26:8080/swagger-ui/index.html#/)
 
@@ -30,7 +30,8 @@ In order to test endpoints with admin role, a user with role admin authority is 
 - H2 database (test)
 - Mysql (prod and dev)
 - Spring Profiles
-- JUnit Mockito
+- unit test(JUnit Mockito)
+- logging (SLF4J)
 - integration test(TestContainers)
 - Maven
 - CI/CD pieline (CircleCI)
