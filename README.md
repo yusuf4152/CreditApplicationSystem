@@ -6,7 +6,7 @@ Credit Application System with Spring Boot
 # Java Spring Bootcamp Graduation Project
 Credit Application System with Spring Boot and ReactJS
 
-- #### Backend live on [](http://3.127.150.26:8080/swagger-ui/index.html#/)
+- #### Backend live on [http://3.127.150.26:8080/swagger-ui/index.html#/](http://3.127.150.26:8080/swagger-ui/index.html#/)
 
 ---
 
@@ -39,7 +39,7 @@ In order to test endpoints with admin role, a user with role admin authority is 
 - AWS ECS
 
 ## build 
-  git clone https://github.com/yusuf4152/CreditApplicationSystem.git
+$ git clone https://github.com/yusuf4152/CreditApplicationSystem.git
 $ cd CreditApplicationSystem
 $ add run mysqliamge database 
 enviroment variable are
@@ -49,7 +49,8 @@ enviroment variable are
       - "3306:3306"
 $ mvn clean install
 $ mvn spring-boot:run
-
+## Swagger UI will be run on this url
+`http://localhost:8080/swagger-ui.html`
 ## api endpoints
 ![image](https://user-images.githubusercontent.com/55889339/220599074-6b20b82b-bb42-43f1-bdc6-ebadecb5bbf5.png)
 
