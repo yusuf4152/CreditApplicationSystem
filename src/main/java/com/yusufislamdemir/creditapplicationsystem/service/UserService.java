@@ -36,7 +36,7 @@ public class UserService {
 
     public GetUserDto getUserById(long id) {
         User user = userRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> {
-            log.error("user not found for id=" + "id");
+            log.error("user not found for id=" + id);
             return new EntityNotFoundException("user not found for id=" + id);
         });
         return getUserDtoConverter.convert(user);
@@ -44,7 +44,7 @@ public class UserService {
 
     private User checkUserById(long id) {
         return userRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> {
-            log.error("user not found");
+            log.error("user not found "+id);
             return new EntityNotFoundException("user not found for id=" + id);
         });
     }
@@ -108,7 +108,7 @@ public class UserService {
 
         return userRepository.findByTcIdentityNumberAndIsDeletedFalse(tcIdentityNumber)
                 .orElseThrow(() -> {
-                    log.info("user not found");
+                    log.info("user not found for tc "+tcIdentityNumber);
                     return new EntityNotFoundException("user not found");
                 });
     }

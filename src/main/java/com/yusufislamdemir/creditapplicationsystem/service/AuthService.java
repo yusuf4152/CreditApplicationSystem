@@ -29,13 +29,13 @@ public class AuthService {
         try {
             Authentication auth =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getTcIdentityNumber(), loginRequestDto.getPassword()));
-            log.info("user login");
+            log.info("user login for tc"+loginRequestDto.getTcIdentityNumber());
             return TokenResponseDto.builder()
                     .token(tokenGenerator.generate(auth))
                     .userDto(userService.getUserDtoByTcIdentityNumber(loginRequestDto.getTcIdentityNumber()))
                     .build();
         } catch (Exception e) {
-            log.error("user not login");
+            log.error("user not login for tc"+loginRequestDto.getTcIdentityNumber());
             throw new UsernameNotFoundException(loginRequestDto.getTcIdentityNumber());
         }
     }

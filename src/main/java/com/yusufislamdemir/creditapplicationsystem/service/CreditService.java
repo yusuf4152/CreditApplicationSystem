@@ -86,7 +86,7 @@ public class CreditService {
     public GetCreditDto getCredit(String userTc, LocalDate dateOfBirth) {
         Credit credit = creditRepository.findByUserIdentificationNumberAndBirthDate(userTc, dateOfBirth)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Credit not found"));
+                        new EntityNotFoundException("Credit not found for "+userTc+"and "+dateOfBirth));
         log.info("credit get");
         return getCreditDtoConverter.convert(credit);
     }
