@@ -42,12 +42,7 @@ In order to test endpoints with admin role, a user with role admin authority is 
  git clone https://github.com/yusuf4152/CreditApplicationSystem.git
  
 - $ cd CreditApplicationSystem
-- $ add run mysql image database 
-enviroment variable are
-      MYSQL_DATABASE: creditSystem
-      MYSQL_ROOT_PASSWORD: root
-          ports:
-      - "3306:3306" 
+- $ docker-compose up 
 - $ mvn clean install
 - $ mvn spring-boot:run
 
