@@ -1,8 +1,6 @@
-# CreditApplicationSystem
-DefineX Java/Spring practium final project
 
 
-# Java Spring Bootcamp Graduation Project
+
 Credit Application System with Spring Boot
 
 - #### Backend live on [http://3.127.150.26:8080/swagger-ui/index.html#/](http://3.127.150.26:8080/swagger-ui/index.html#/)
