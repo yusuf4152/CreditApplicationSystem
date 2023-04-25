@@ -10,3 +10,9 @@ services:
     environment:
       MYSQL_DATABASE: creditSystem
       MYSQL_ROOT_PASSWORD: root
+
+  redisCache:
+    container_name: "redisCache"
+    image: redis:latest
+    ports:
+      - "6379:6379"

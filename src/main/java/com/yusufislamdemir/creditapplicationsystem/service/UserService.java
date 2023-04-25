@@ -8,6 +8,9 @@ import com.yusufislamdemir.creditapplicationsystem.entity.Role;
 import com.yusufislamdemir.creditapplicationsystem.entity.User;
 import com.yusufislamdemir.creditapplicationsystem.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,11 +47,13 @@ public class UserService {
 
     private User checkUserById(long id) {
         return userRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> {
-            log.error("user not found "+id);
+            log.error("user not found " + id);
             return new EntityNotFoundException("user not found for id=" + id);
         });
     }
 
+    @CachePut(value = "users",key = "#result.id")
+    @CacheEvict(value = "users",allEntries = true)
     public GetUserDto createUser(CreateUserDto createUserDto) {
         Random random = new Random();
         User user = User.builder()
@@ -76,6 +81,7 @@ public class UserService {
         return getUserDtoConverter.convert(userRepository.save(user));
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public GetUserDto UpdateUser(UpdateUserDto updateUserDto) {
         User databaseUser = checkUserById(updateUserDto.getUserId());
         User user = User.builder()
@@ -90,6 +96,8 @@ public class UserService {
         return getUserDtoConverter.convert(userRepository.save(user));
     }
 
+
+    @Cacheable(value = "users")
     public List<GetUserDto> getAllUsers() {
         return userRepository
                 .findAllByIsDeletedFalse()
@@ -98,6 +106,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "users",allEntries = true)
     public GetUserDto deleteUserById(long id) {
         User user = checkUserById(id);
         user.setDeleted(true);
@@ -108,7 +117,7 @@ public class UserService {
 
         return userRepository.findByTcIdentityNumberAndIsDeletedFalse(tcIdentityNumber)
                 .orElseThrow(() -> {
-                    log.info("user not found for tc "+tcIdentityNumber);
+                    log.info("user not found for tc " + tcIdentityNumber);
                     return new EntityNotFoundException("user not found");
                 });
     }

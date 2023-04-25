@@ -6,6 +6,7 @@ import com.yusufislamdemir.creditapplicationsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @SpringBootApplication
+@EnableCaching
 public class CreditApplicationSystemApplication {
 
     @Autowired
