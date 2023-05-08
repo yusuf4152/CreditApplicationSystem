@@ -28,12 +28,17 @@ public class User {
     private String phoneNumber;
     private LocalDate dateOfBirth;
     private int creditScore;
+    private long currentWealth;
     private Role role;
     private String password;
     private boolean isDeleted = false;
 
     @OneToMany(mappedBy = "user")
     private List<Credit> creditList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Account> accounts;
+
 
     @Override
     public boolean equals(Object o) {

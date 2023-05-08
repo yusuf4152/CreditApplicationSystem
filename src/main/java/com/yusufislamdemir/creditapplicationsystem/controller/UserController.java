@@ -39,7 +39,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.giveAdminRoleToUser(userId));
     }
 
-    @Secured("ROLE_ADMIN")
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<GetUserDto>> getAllUsers() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());

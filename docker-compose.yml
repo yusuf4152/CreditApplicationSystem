@@ -7,6 +7,8 @@ services:
     restart: always
     ports:
       - "3306:3306"
+    networks:
+      - host
     environment:
       MYSQL_DATABASE: creditSystem
       MYSQL_ROOT_PASSWORD: root
@@ -16,3 +18,20 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+    networks:
+      - host
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - host
+
+networks:
+  host:

@@ -45,7 +45,7 @@ public class UserService {
         return getUserDtoConverter.convert(user);
     }
 
-    private User checkUserById(long id) {
+    public User checkUserById(long id) {
         return userRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> {
             log.error("user not found " + id);
             return new EntityNotFoundException("user not found for id=" + id);
