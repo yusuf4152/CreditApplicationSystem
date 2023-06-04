@@ -102,7 +102,7 @@ public class AccountService {
                 },
                 () -> {
                     System.out.println("receiver Account not found for id= " + transferMoneyRequest.getSenderAccountId());
-                    String deneme="receiver Account not found for id=" +transferMoneyRequest.getSenderAccountId();
+                    String deneme = "receiver Account not found for id=" + transferMoneyRequest.getSenderAccountId();
                     Optional<Account> senderAccount = accountRepository.findById(transferMoneyRequest.getSenderAccountId());
                     senderAccount.ifPresent(
                             account -> {

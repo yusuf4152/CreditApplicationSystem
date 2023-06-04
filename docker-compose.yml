@@ -1,17 +1,39 @@
 version: "3"
 
 services:
+  creditapplicationsystem:
+    container_name: "creditapplicationsystem"
+    build: .
+    environment:
+      - spring.datasource.url=jdbc:mysql://creditSystemDb:3306/creditSystem?useSSL=false&allowPublicKeyRetrieval=true
+      - spring.datasource.username=root
+      - spring.datasource.password=root
+      - spring.cache.type=redis
+      - spring.redis.host=redisCache
+      - spring.redis.port=6379
+    ports:
+      - "8080:8080"
+    depends_on:
+     - creditSystemDb
+     - rabbitmq
+     - redisCache
+    networks:
+      - host
+
   creditSystemDb:
     container_name: "creditSystemDb"
     image: mysql
     restart: always
     ports:
       - "3306:3306"
-    networks:
-      - host
     environment:
       MYSQL_DATABASE: creditSystem
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD : root
+    networks:
+      - host
+    volumes:
+      - dbdata:/var/lib/mysql
 
   redisCache:
     container_name: "redisCache"
@@ -35,3 +57,7 @@ services:
 
 networks:
   host:
+    driver: bridge
+
+volumes:
+  dbdata:
