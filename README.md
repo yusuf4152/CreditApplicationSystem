@@ -36,6 +36,7 @@ In order to test endpoints with admin role, a user with role admin authority is 
 - Docker
 - AWS ECS
 - Redis
+- RabbitMQ
 
 ## build 
  git clone https://github.com/yusuf4152/CreditApplicationSystem.git
