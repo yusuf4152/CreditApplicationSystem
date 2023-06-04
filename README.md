@@ -42,9 +42,7 @@ In order to test endpoints with admin role, a user with role admin authority is 
  git clone https://github.com/yusuf4152/CreditApplicationSystem.git
  
 - $ cd CreditApplicationSystem
-- $ docker-compose up 
-- $ mvn clean install
-- $ mvn spring-boot:run
+- $ docker-compose up -d
 
 ## Swagger UI will be run on this url
 `http://localhost:8080/swagger-ui.html`
